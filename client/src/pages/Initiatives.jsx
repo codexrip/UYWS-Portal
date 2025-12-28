@@ -12,7 +12,7 @@ const Initiatives = () => {
     const fetchInitiatives = async () => {
       try {
         // This connects to your Backend API
-        const response = await axios.get('http://localhost:5000/api/initiatives');
+        const response = await axios.get('https://uyws-portal.vercel.app');
         setInitiatives(response.data);
         setLoading(false);
       } catch (err) {
