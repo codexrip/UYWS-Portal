@@ -1,7 +1,10 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import InitiativeCard from '../components/InitiativeCard';
-import { Loader2 } from 'lucide-react';
+import { Loader2, AlertCircle } from 'lucide-react';
+
+// 👇 THIS IS THE FIX: We use your backend URL
+const API_BASE_URL = "https://uyws-portal.vercel.app"; 
 
 const Initiatives = () => {
   const [initiatives, setInitiatives] = useState([]);
@@ -11,13 +14,22 @@ const Initiatives = () => {
   useEffect(() => {
     const fetchInitiatives = async () => {
       try {
-        // This connects to your Backend API
-        const response = await axios.get('https://uyws-portal.vercel.app');
-        setInitiatives(response.data);
+        // 👇 THIS IS THE IMPORTANT PART
+        // We don't just ask the website, we specifically ask for "/api/initiatives"
+        const response = await axios.get(`${API_BASE_URL}/api/initiatives`);
+        
+        // Safety check to ensure we got a list, not an error message or HTML
+        if (Array.isArray(response.data)) {
+            setInitiatives(response.data);
+        } else {
+            console.error("Received data is not a list:", response.data);
+            setInitiatives([]); 
+        }
+        
         setLoading(false);
       } catch (err) {
         console.error("Error fetching data:", err);
-        setError("Failed to load initiatives. Is the backend server running?");
+        setError("Failed to load initiatives. Please check your connection.");
         setLoading(false);
       }
     };
@@ -32,8 +44,9 @@ const Initiatives = () => {
   );
 
   if (error) return (
-    <div className="min-h-screen flex justify-center items-center text-red-500">
-      {error}
+    <div className="min-h-screen flex flex-col justify-center items-center text-red-500 gap-2">
+      <AlertCircle className="h-8 w-8" />
+      <p>{error}</p>
     </div>
   );
 
@@ -48,11 +61,16 @@ const Initiatives = () => {
         </p>
       </div>
 
-      {/* Grid Layout for Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {initiatives.map((initiative) => (
-          <InitiativeCard key={initiative._id} initiative={initiative} />
-        ))}
+        {initiatives.length > 0 ? (
+          initiatives.map((initiative) => (
+            <InitiativeCard key={initiative._id} initiative={initiative} />
+          ))
+        ) : (
+          <div className="col-span-full text-center text-gray-500 py-10">
+            <p>No initiatives found at the moment.</p>
+          </div>
+        )}
       </div>
     </div>
   );
