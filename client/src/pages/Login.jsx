@@ -32,7 +32,7 @@ const Login = () => {
 
     // --- 2. NORMAL MEMBER LOGIN (Database Check) ---
     try {
-      const res = await axios.post('http://localhost:5000/api/login', { 
+      const res = await axios.post('https://uyws-portal.vercel.app/', { 
         email, 
         password 
       });

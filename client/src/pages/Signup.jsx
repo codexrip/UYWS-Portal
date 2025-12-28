@@ -16,7 +16,7 @@ const Signup = () => {
 
     try {
       // Register user (defaults to role: 'user' in backend)
-      const res = await axios.post('http://localhost:5000/api/register', { 
+      const res = await axios.post('https://uyws-portal.vercel.app', { 
         name, 
         email, 
         password 

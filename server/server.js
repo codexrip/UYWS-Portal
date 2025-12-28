@@ -3,15 +3,19 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 
-// Import Models (Make sure these files exist in /models folder)
+// Import Models
 const Application = require('./models/Application');
-const User = require('./models/User'); // <--- CRITICAL FOR SIGNUP
+const User = require('./models/User');
 
 const app = express();
 
 // Middleware
 app.use(express.json());
-app.use(cors());
+app.use(cors({
+    origin: "*", // Allow all connections (Easiest for student projects)
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true
+}));
 
 // Database Connection
 mongoose.connect(process.env.MONGODB_URI)
@@ -19,31 +23,30 @@ mongoose.connect(process.env.MONGODB_URI)
     .catch(err => console.error("❌ MongoDB Connection Error:", err));
 
 // ==========================================
-// 1. AUTH ROUTES (Login & Signup) - ADDED THIS
+// ROUTES
 // ==========================================
 
-// SIGNUP Route
+app.get('/', (req, res) => {
+    res.send('UPOPK API is Running on Vercel...');
+});
+
+// 1. AUTH ROUTES
 app.post('/api/register', async (req, res) => {
     const { name, email, password } = req.body;
     try {
         const existingUser = await User.findOne({ email });
         if (existingUser) return res.status(400).json({ message: "User already exists" });
 
-        const newUser = new User({
-            name,
-            email,
-            password,
-            role: 'admin'  // <--- CHANGE THIS temporarily (was 'volunteer')
+        const newUser = new User({ 
+            name, email, password, role: 'volunteer' 
         });
         await newUser.save();
         res.status(201).json(newUser);
     } catch (err) {
-        console.error("Signup Error:", err);
-        res.status(500).json({ message: "Server error during registration" });
+        res.status(500).json({ message: "Server error" });
     }
 });
 
-// LOGIN Route
 app.post('/api/login', async (req, res) => {
     const { email, password } = req.body;
     try {
@@ -57,11 +60,7 @@ app.post('/api/login', async (req, res) => {
     }
 });
 
-// ==========================================
-// 2. DASHBOARD / APPLICATION ROUTES
-// ==========================================
-
-// Apply for a program
+// 2. APPLICATION ROUTES
 app.post('/api/apply', async (req, res) => {
     const { userId, name, email, program } = req.body;
     try {
@@ -76,17 +75,15 @@ app.post('/api/apply', async (req, res) => {
     }
 });
 
-// Get My Applications
 app.get('/api/my-applications/:userId', async (req, res) => {
     try {
         const apps = await Application.find({ userId: req.params.userId });
         res.json(apps);
     } catch (err) {
-        res.status(500).json({ error: "Error fetching applications" });
+        res.status(500).json({ error: "Error fetching data" });
     }
 });
 
-// ADMIN: Get ALL Applications
 app.get('/api/admin/applications', async (req, res) => {
     try {
         const apps = await Application.find().sort({ appliedDate: -1 });
@@ -96,7 +93,6 @@ app.get('/api/admin/applications', async (req, res) => {
     }
 });
 
-// ADMIN: Update Status
 app.put('/api/admin/application/:id', async (req, res) => {
     try {
         const { status } = req.body;
@@ -108,20 +104,17 @@ app.put('/api/admin/application/:id', async (req, res) => {
 });
 
 // ==========================================
-// 3. EXISTING ROUTES (Initiatives/Volunteers)
+// VERCEL SERVER CONFIGURATION
 // ==========================================
-const initiativesRouter = require('./routes/initiatives');
-const volunteersRouter = require('./routes/volunteers');
+// Vercel handles the port automatically.
+// We export the app for Vercel, but also listen if running locally.
 
-app.use('/api/initiatives', initiativesRouter);
-app.use('/api/volunteers', volunteersRouter);
-
-app.get('/', (req, res) => {
-    res.send('UPOPK API is Running...');
-});
-
-// Start Server
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-    console.log(`🚀 Server running on port ${PORT}`);
-});
+
+if (process.env.NODE_ENV !== 'production') {
+    app.listen(PORT, () => {
+        console.log(`🚀 Server running locally on port ${PORT}`);
+    });
+}
+
+module.exports = app;
