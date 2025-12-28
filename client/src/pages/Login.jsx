@@ -15,7 +15,7 @@ const Login = () => {
 
     // --- 1. HARDCODED ADMIN CHECK (Predefined credentials) ---
     // You can change these to whatever you want
-    if (email === 'admin' && password === 'admin123') {
+    if (email === 'TheUYwsSysTeM@Dm!n' && password === 'jJhdy773^s6!') {
       
       // Create a fake "user" object that looks like a database user
       const adminUser = {

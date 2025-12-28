@@ -3,6 +3,9 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { Users, LogOut, Printer, CheckCircle, XCircle, Trash2 } from 'lucide-react';
 
+// 👇 REPLACE WITH YOUR VERCEL BACKEND URL
+const API_URL = "https://YOUR-BACKEND-URL.vercel.app";
+
 const Admin = () => {
   const [applications, setApplications] = useState([]);
   const navigate = useNavigate();
@@ -22,7 +25,8 @@ const Admin = () => {
 
   const fetchApplications = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/admin/applications');
+      // ✅ UPDATED URL
+      const response = await axios.get(`${API_URL}/api/admin/applications`);
       setApplications(response.data);
     } catch (err) {
       console.error("Error fetching applications:", err);
@@ -37,7 +41,8 @@ const Admin = () => {
   // 2. Action: Approve / Reject
   const handleStatusUpdate = async (id, newStatus) => {
     try {
-      await axios.put(`http://localhost:5000/api/admin/application/${id}`, { status: newStatus });
+      // ✅ UPDATED URL
+      await axios.put(`${API_URL}/api/admin/application/${id}`, { status: newStatus });
       fetchApplications(); // Refresh list to see changes
     } catch (err) {
       alert("Error updating status");
@@ -48,12 +53,8 @@ const Admin = () => {
   const handleDelete = async (id) => {
     if (window.confirm("Are you sure you want to delete this application permanently?")) {
       try {
-        // You might need to add a DELETE route to your backend if you haven't yet:
-        // app.delete('/api/admin/application/:id', ...)
-        // For now, let's assume you added it or we just filter it out locally for UI demo
-        // await axios.delete(`http://localhost:5000/api/admin/application/${id}`); 
-        
-        // Simulating delete for UI
+        // Simulating delete for UI (You can add the API call later if needed)
+        // await axios.delete(`${API_URL}/api/admin/application/${id}`); 
         setApplications(applications.filter(app => app._id !== id));
       } catch (err) {
         alert("Error deleting application");
