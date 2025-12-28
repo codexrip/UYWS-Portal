@@ -15,12 +15,13 @@ const Signup = () => {
     setError('');
 
     try {
-      // Register user (defaults to role: 'user' in backend)
-      const res = await axios.post('https://uyws-portal.vercel.app', { 
-        name, 
-        email, 
-        password 
+      // 👇 CHANGE THIS LINE: Add "/api/register" at the end
+      const res = await axios.post('https://uyws-portal.vercel.app/api/register', {
+        name,
+        email,
+        password
       });
+
 
       // Auto-login after signup
       localStorage.setItem('user', JSON.stringify(res.data));
@@ -34,7 +35,7 @@ const Signup = () => {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4 font-sans">
       <div className="max-w-md w-full bg-white p-8 rounded-xl shadow-xl border border-gray-100">
-        
+
         <div className="text-center mb-8">
           <div className="bg-teal-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
             <UserPlus className="h-8 w-8 text-teal-700" />

@@ -13,6 +13,15 @@ const InitiativeCard = ({ initiative }) => {
         />
       </div>
 
+      <div className="h-48 w-full overflow-hidden">
+  <img 
+    // 👇 CHANGE THIS: Use 'initiative.image' instead of 'imageUrl'
+    src={initiative.image} 
+    alt={initiative.title} 
+    className="w-full h-full object-cover transform hover:scale-105 transition-transform duration-500"
+  />
+</div>
+
       {/* Content Section */}
       <div className="p-6 flex-1 flex flex-col">
         <div className="flex justify-between items-start mb-2">

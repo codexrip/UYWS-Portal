@@ -16,7 +16,7 @@ const Login = () => {
     // --- 1. HARDCODED ADMIN CHECK (Predefined credentials) ---
     // You can change these to whatever you want
     if (email === 'TheUYwsSysTeM@Dm!n' && password === 'jJhdy773^s6!') {
-      
+
       // Create a fake "user" object that looks like a database user
       const adminUser = {
         _id: 'admin_id',
@@ -32,13 +32,14 @@ const Login = () => {
 
     // --- 2. NORMAL MEMBER LOGIN (Database Check) ---
     try {
-      const res = await axios.post('https://uyws-portal.vercel.app/', { 
-        email, 
-        password 
+      // 👇 CHANGE THIS LINE: Add "/api/login" at the end
+      const res = await axios.post('https://uyws-portal.vercel.app/api/login', {
+        email,
+        password
       });
 
       localStorage.setItem('user', JSON.stringify(res.data));
-      
+
       // Safety check: In case a database user has role='admin'
       if (res.data.role === 'admin') {
         navigate('/admin');
@@ -54,7 +55,7 @@ const Login = () => {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4 font-sans">
       <div className="max-w-md w-full bg-white p-8 rounded-xl shadow-xl border border-gray-100">
-        
+
         <div className="text-center mb-8">
           <div className="bg-teal-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
             <Lock className="h-8 w-8 text-teal-700" />
