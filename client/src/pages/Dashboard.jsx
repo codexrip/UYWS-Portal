@@ -3,10 +3,9 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { ClipboardList, Award, HandHeart, User } from 'lucide-react';
 
-// 👇 CHANGE THIS to your actual Backend URL
 const API_BASE_URL = "https://uyws-portal.vercel.app"; 
 
-const UserDashboard = () => {
+const Dashboard = () => {
   const [user, setUser] = useState(null);
   const [myApps, setMyApps] = useState([]); 
   const [loading, setLoading] = useState(true);
@@ -23,7 +22,7 @@ const UserDashboard = () => {
     const parsedUser = JSON.parse(storedUser);
     setUser(parsedUser);
 
-    // 👇 Updated URL here
+    // Fetch user's applications
     axios.get(`${API_BASE_URL}/api/my-applications/${parsedUser._id}`)
       .then(res => {
         setMyApps(res.data);
@@ -39,7 +38,6 @@ const UserDashboard = () => {
   const handleApply = async (programName) => {
     if (!user) return;
     try {
-      // 👇 Updated URL here
       await axios.post(`${API_BASE_URL}/api/apply`, {
         userId: user._id,
         name: user.name,
@@ -121,54 +119,56 @@ const UserDashboard = () => {
             <h2 className="text-xl font-bold text-gray-800">My Applications</h2>
           </div>
           
-          <table className="w-full text-left border-collapse">
-            <thead className="bg-gray-50 text-gray-500 text-sm uppercase">
-              <tr>
-                <th className="p-4 font-semibold">Program</th>
-                <th className="p-4 font-semibold">Date Applied</th>
-                <th className="p-4 font-semibold">Status</th>
-                <th className="p-4 font-semibold">Certificate</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-gray-100">
-              {myApps.length === 0 ? (
+          <div className="overflow-x-auto">
+            <table className="w-full text-left border-collapse">
+              <thead className="bg-gray-50 text-gray-500 text-sm uppercase">
                 <tr>
-                  <td colSpan="4" className="p-8 text-center text-gray-400">
-                    You haven't applied to any programs yet. <br/>
-                    Click "Apply Now" on the cards above!
-                  </td>
+                  <th className="p-4 font-semibold">Program</th>
+                  <th className="p-4 font-semibold">Date Applied</th>
+                  <th className="p-4 font-semibold">Status</th>
+                  <th className="p-4 font-semibold">Certificate</th>
                 </tr>
-              ) : (
-                myApps.map((app) => (
-                  <tr key={app._id} className="hover:bg-gray-50 transition">
-                    <td className="p-4 font-medium text-gray-900">{app.program}</td>
-                    <td className="p-4 text-gray-500 text-sm">{new Date(app.appliedDate).toLocaleDateString()}</td>
-                    <td className="p-4">
-                      <span className={`px-3 py-1 rounded-full text-xs font-bold border ${
-                        app.status === 'Approved' ? 'bg-green-50 text-green-700 border-green-200' : 
-                        app.status === 'Rejected' ? 'bg-red-50 text-red-700 border-red-200' : 
-                        'bg-yellow-50 text-yellow-700 border-yellow-200'
-                      }`}>
-                        {app.status}
-                      </span>
-                    </td>
-                    <td className="p-4">
-                      {app.status === 'Approved' ? (
-                        <button 
-                          onClick={() => printCertificate(app.program)}
-                          className="flex items-center gap-1 text-teal-700 font-bold text-sm hover:underline"
-                        >
-                          <Award className="h-4 w-4" /> Print
-                        </button>
-                      ) : (
-                        <span className="text-gray-300 text-xs italic">Locked</span>
-                      )}
+              </thead>
+              <tbody className="divide-y divide-gray-100">
+                {myApps.length === 0 ? (
+                  <tr>
+                    <td colSpan="4" className="p-8 text-center text-gray-400">
+                      You haven't applied to any programs yet. <br/>
+                      Click "Apply Now" on the cards above!
                     </td>
                   </tr>
-                ))
-              )}
-            </tbody>
-          </table>
+                ) : (
+                  myApps.map((app) => (
+                    <tr key={app._id} className="hover:bg-gray-50 transition">
+                      <td className="p-4 font-medium text-gray-900">{app.program}</td>
+                      <td className="p-4 text-gray-500 text-sm">{new Date(app.appliedDate).toLocaleDateString()}</td>
+                      <td className="p-4">
+                        <span className={`px-3 py-1 rounded-full text-xs font-bold border ${
+                          app.status === 'Approved' ? 'bg-green-50 text-green-700 border-green-200' : 
+                          app.status === 'Rejected' ? 'bg-red-50 text-red-700 border-red-200' : 
+                          'bg-yellow-50 text-yellow-700 border-yellow-200'
+                        }`}>
+                          {app.status}
+                        </span>
+                      </td>
+                      <td className="p-4">
+                        {app.status === 'Approved' ? (
+                          <button 
+                            onClick={() => printCertificate(app.program)}
+                            className="flex items-center gap-1 text-teal-700 font-bold text-sm hover:underline"
+                          >
+                            <Award className="h-4 w-4" /> Print
+                          </button>
+                        ) : (
+                          <span className="text-gray-300 text-xs italic">Locked</span>
+                        )}
+                      </td>
+                    </tr>
+                  ))
+                )}
+              </tbody>
+            </table>
+          </div>
         </div>
 
       </div>
@@ -176,4 +176,4 @@ const UserDashboard = () => {
   );
 };
 
-export default UserDashboard;
+export default Dashboard;

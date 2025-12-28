@@ -4,23 +4,14 @@ import { Link } from 'react-router-dom';
 const InitiativeCard = ({ initiative }) => {
   return (
     <div className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 flex flex-col h-full">
-      {/* Image Section */}
+      {/* Image Section - ✅ FIXED: Single image block using 'image' prop */}
       <div className="h-48 w-full overflow-hidden">
         <img 
-          src={initiative.imageUrl} 
+          src={initiative.image} 
           alt={initiative.title} 
           className="w-full h-full object-cover transform hover:scale-105 transition-transform duration-500"
         />
       </div>
-
-      <div className="h-48 w-full overflow-hidden">
-  <img 
-    // 👇 CHANGE THIS: Use 'initiative.image' instead of 'imageUrl'
-    src={initiative.image} 
-    alt={initiative.title} 
-    className="w-full h-full object-cover transform hover:scale-105 transition-transform duration-500"
-  />
-</div>
 
       {/* Content Section */}
       <div className="p-6 flex-1 flex flex-col">
@@ -35,19 +26,20 @@ const InitiativeCard = ({ initiative }) => {
         {/* Details: Date & Location */}
         <div className="space-y-2 mb-6">
           <div className="flex items-center text-sm text-gray-500">
-            <Calendar className="h-4 w-4 mr-2 text-brand-green" />
+            <Calendar className="h-4 w-4 mr-2 text-teal-600" />
             {new Date(initiative.date).toLocaleDateString()}
           </div>
           <div className="flex items-center text-sm text-gray-500">
-            <MapPin className="h-4 w-4 mr-2 text-brand-green" />
+            <MapPin className="h-4 w-4 mr-2 text-teal-600" />
             {initiative.location}
           </div>
         </div>
 
         {/* Action Button */}
+        {/* Note: This links to /volunteer/ID. You need a Route for this in App.jsx */}
         <Link 
           to={`/volunteer/${initiative._id}`} 
-          className="w-full block text-center bg-brand-dark text-white py-2 rounded-lg font-medium hover:bg-gray-800 transition-colors"
+          className="w-full block text-center bg-gray-900 text-white py-2 rounded-lg font-medium hover:bg-gray-800 transition-colors"
         >
           Volunteer Now
         </Link>

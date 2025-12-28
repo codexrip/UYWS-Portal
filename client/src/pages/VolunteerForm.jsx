@@ -3,10 +3,9 @@ import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { CheckCircle, AlertCircle } from 'lucide-react';
 
-// 👇 CHANGE THIS to your actual Backend URL found in Vercel Dashboard
 const API_BASE_URL = "https://uyws-portal.vercel.app"; 
 
-const Volunteer = () => {
+const VolunteerForm = () => {
   const { id } = useParams(); 
   const navigate = useNavigate();
   
@@ -28,13 +27,13 @@ const Volunteer = () => {
     setStatus('loading');
 
     try {
-      // 👇 Updated to use the Live URL
       await axios.post(`${API_BASE_URL}/api/volunteers`, {
         ...formData,
         initiativeId: id 
       });
       setStatus('success');
       
+      // Redirect back to initiatives list after 3 seconds
       setTimeout(() => navigate('/initiatives'), 3000);
       
     } catch (err) {
@@ -50,7 +49,7 @@ const Volunteer = () => {
           <CheckCircle className="h-16 w-16 text-green-500 mx-auto mb-4" />
           <h2 className="text-2xl font-bold text-gray-900 mb-2">Thank You!</h2>
           <p className="text-gray-600">You have successfully registered as a volunteer. We will contact you soon.</p>
-          <button onClick={() => navigate('/initiatives')} className="mt-6 text-brand-green font-medium hover:underline">
+          <button onClick={() => navigate('/initiatives')} className="mt-6 text-teal-700 font-medium hover:underline">
             Back to Initiatives
           </button>
         </div>
@@ -76,7 +75,7 @@ const Volunteer = () => {
               required
               value={formData.fullName}
               onChange={handleChange}
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-brand-green focus:border-brand-green"
+              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-teal-500 focus:border-teal-500"
             />
           </div>
 
@@ -89,7 +88,7 @@ const Volunteer = () => {
               required
               value={formData.email}
               onChange={handleChange}
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-brand-green focus:border-brand-green"
+              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-teal-500 focus:border-teal-500"
             />
           </div>
 
@@ -102,7 +101,7 @@ const Volunteer = () => {
               required
               value={formData.phone}
               onChange={handleChange}
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-brand-green focus:border-brand-green"
+              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-teal-500 focus:border-teal-500"
             />
           </div>
 
@@ -114,7 +113,7 @@ const Volunteer = () => {
               rows="3"
               value={formData.message}
               onChange={handleChange}
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-brand-green focus:border-brand-green"
+              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-teal-500 focus:border-teal-500"
             />
           </div>
 
@@ -129,7 +128,7 @@ const Volunteer = () => {
           <button
             type="submit"
             disabled={status === 'loading'}
-            className="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-brand-green hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-green disabled:opacity-50"
+            className="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-teal-700 hover:bg-teal-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 disabled:opacity-50 transition"
           >
             {status === 'loading' ? 'Submitting...' : 'Confirm Registration'}
           </button>
@@ -139,4 +138,4 @@ const Volunteer = () => {
   );
 };
 
-export default Volunteer;
+export default VolunteerForm;

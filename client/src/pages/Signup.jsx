@@ -15,19 +15,18 @@ const Signup = () => {
     setError('');
 
     try {
-      // 👇 CHANGE THIS LINE: Add "/api/register" at the end
-      const res = await axios.post('https://uyws-portal.vercel.app/api/register', {
-        name,
-        email,
-        password
+      // ✅ FIX: Pointing to register endpoint
+      const res = await axios.post('https://uyws-portal.vercel.app/api/register', { 
+        name, 
+        email, 
+        password 
       });
 
-
-      // Auto-login after signup
       localStorage.setItem('user', JSON.stringify(res.data));
-      navigate('/dashboard'); // Go straight to dashboard to apply
+      navigate('/dashboard');
 
     } catch (err) {
+      console.error(err);
       setError(err.response?.data?.message || 'Error creating account');
     }
   };
@@ -35,17 +34,15 @@ const Signup = () => {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4 font-sans">
       <div className="max-w-md w-full bg-white p-8 rounded-xl shadow-xl border border-gray-100">
-
+        
         <div className="text-center mb-8">
           <div className="bg-teal-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
             <UserPlus className="h-8 w-8 text-teal-700" />
           </div>
           <h2 className="text-3xl font-serif font-bold text-gray-900">Create Account</h2>
-          <p className="text-gray-500 text-sm mt-2">Join our community of volunteers today.</p>
         </div>
 
         <form onSubmit={handleSignup} className="space-y-4">
-          {/* Name */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
             <div className="relative">
@@ -57,7 +54,6 @@ const Signup = () => {
             </div>
           </div>
 
-          {/* Email */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
             <div className="relative">
@@ -69,7 +65,6 @@ const Signup = () => {
             </div>
           </div>
 
-          {/* Password */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Password</label>
             <div className="relative">

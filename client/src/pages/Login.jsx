@@ -13,34 +13,30 @@ const Login = () => {
     e.preventDefault();
     setError('');
 
-    // --- 1. HARDCODED ADMIN CHECK (Predefined credentials) ---
-    // You can change these to whatever you want
+    // --- 1. HARDCODED ADMIN CHECK (Optional) ---
     if (email === 'TheUYwsSysTeM@Dm!n' && password === 'jJhdy773^s6!') {
-
-      // Create a fake "user" object that looks like a database user
       const adminUser = {
         _id: 'admin_id',
         name: 'Master Admin',
         email: 'admin@system.com',
-        role: 'admin' // CRITICAL: This allows access to Admin Dashboard
+        role: 'admin'
       };
-
       localStorage.setItem('user', JSON.stringify(adminUser));
       navigate('/admin');
-      return; // Stop here, don't check database
+      return;
     }
 
-    // --- 2. NORMAL MEMBER LOGIN (Database Check) ---
+    // --- 2. DATABASE LOGIN ---
     try {
-      // 👇 CHANGE THIS LINE: Add "/api/login" at the end
-      const res = await axios.post('https://uyws-portal.vercel.app/api/login', {
-        email,
-        password
+      // ✅ FIX: Pointing to specific API endpoint
+      const res = await axios.post('https://uyws-portal.vercel.app/api/login', { 
+        email, 
+        password 
       });
 
       localStorage.setItem('user', JSON.stringify(res.data));
-
-      // Safety check: In case a database user has role='admin'
+      
+      // Redirect based on role
       if (res.data.role === 'admin') {
         navigate('/admin');
       } else {
@@ -48,6 +44,7 @@ const Login = () => {
       }
 
     } catch (err) {
+      console.error(err);
       setError('Invalid Email or Password');
     }
   };
@@ -55,7 +52,7 @@ const Login = () => {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4 font-sans">
       <div className="max-w-md w-full bg-white p-8 rounded-xl shadow-xl border border-gray-100">
-
+        
         <div className="text-center mb-8">
           <div className="bg-teal-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
             <Lock className="h-8 w-8 text-teal-700" />
@@ -66,14 +63,14 @@ const Login = () => {
 
         <form onSubmit={handleLogin} className="space-y-5">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Email / Username</label>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
             <div className="relative">
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                 <Mail className="h-5 w-5 text-gray-400" />
               </div>
               <input
-                type="text" // Changed from 'email' to 'text' to allow username "admin"
-                placeholder="admin OR email@example.com"
+                type="text"
+                placeholder="email@example.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required

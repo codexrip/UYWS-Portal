@@ -1,31 +1,27 @@
-import { Routes, Route } from 'react-router-dom';
-import Navbar from './components/Navbar';
-import Footer from './components/Footer';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+
+// Import your pages (Adjust paths if your folders are different)
 import Home from './pages/Home';
-import Initiatives from './pages/Initiatives';
-import Volunteer from './pages/Volunteer'; // New Import
-import Admin from './pages/Admin';
-import About from './pages/About';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
-import UserDashboard from './pages/UserDashboard';
+import Admin from './pages/Admin';
+import Dashboard from './pages/Dashboard';
+import VolunteerForm from './pages/VolunteerForm'; // You might need to create this!
 
 function App() {
   return (
-    <div className="min-h-screen bg-gray-50 font-sans">
-      <Navbar />
+    <Router>
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/initiatives" element={<Initiatives />} />
-        <Route path="/volunteer/:id" element={<Volunteer />} /> {/* New Route */}
-        <Route path="/admin" element={<Admin />} />
-        <Route path="/about" element={<About />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
-        <Route path="/dashboard" element={<UserDashboard />} />
+        <Route path="/admin" element={<Admin />} />
+        <Route path="/dashboard" element={<Dashboard />} />
+        
+        {/* ✅ FIX: This handles the link from InitiativeCard */}
+        <Route path="/volunteer/:id" element={<VolunteerForm />} />
       </Routes>
-      <Footer />
-    </div>
+    </Router>
   );
 }
 

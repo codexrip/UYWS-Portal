@@ -3,7 +3,6 @@ import axios from 'axios';
 import InitiativeCard from '../components/InitiativeCard';
 import { Loader2, AlertCircle } from 'lucide-react';
 
-// 👇 THIS IS THE FIX: We use your backend URL
 const API_BASE_URL = "https://uyws-portal.vercel.app"; 
 
 const Initiatives = () => {
@@ -14,11 +13,8 @@ const Initiatives = () => {
   useEffect(() => {
     const fetchInitiatives = async () => {
       try {
-        // 👇 THIS IS THE IMPORTANT PART
-        // We don't just ask the website, we specifically ask for "/api/initiatives"
         const response = await axios.get(`${API_BASE_URL}/api/initiatives`);
         
-        // Safety check to ensure we got a list, not an error message or HTML
         if (Array.isArray(response.data)) {
             setInitiatives(response.data);
         } else {
@@ -39,7 +35,7 @@ const Initiatives = () => {
 
   if (loading) return (
     <div className="min-h-screen flex justify-center items-center">
-      <Loader2 className="h-10 w-10 animate-spin text-brand-green" />
+      <Loader2 className="h-10 w-10 animate-spin text-teal-600" />
     </div>
   );
 
