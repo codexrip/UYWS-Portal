@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 // Import your pages
 import Home from './pages/Home';
 import Login from './pages/Login';
-import Signup from './pages/SignUp'; // ✅ FIXED: Lowercase 'u' matches your file
+import Signup from './pages/Signup'; // ✅ FIXED: Lowercase 'u' matches your file
 import Admin from './pages/Admin';
 import Dashboard from './pages/Dashboard';
 import VolunteerForm from './pages/VolunteerForm';
