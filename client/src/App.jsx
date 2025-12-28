@@ -1,12 +1,13 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
-// Import your pages (Adjust paths if your folders are different)
+// Import Pages
 import Home from './pages/Home';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 import Admin from './pages/Admin';
 import Dashboard from './pages/Dashboard';
-import VolunteerForm from './pages/VolunteerForm'; // You might need to create this!
+import VolunteerForm from './pages/VolunteerForm';
+import Initiatives from './pages/Initiatives'; // ✅ NEW IMPORT
 
 function App() {
   return (
@@ -18,7 +19,10 @@ function App() {
         <Route path="/admin" element={<Admin />} />
         <Route path="/dashboard" element={<Dashboard />} />
         
-        {/* ✅ FIX: This handles the link from InitiativeCard */}
+        {/* ✅ NEW ROUTE: Displays the list of all initiatives */}
+        <Route path="/initiatives" element={<Initiatives />} />
+        
+        {/* Route for applying to a specific initiative */}
         <Route path="/volunteer/:id" element={<VolunteerForm />} />
       </Routes>
     </Router>
