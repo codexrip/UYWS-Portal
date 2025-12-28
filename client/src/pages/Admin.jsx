@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { Users, LogOut, Printer, CheckCircle, XCircle, Trash2 } from 'lucide-react';
 
 // 👇 REPLACE WITH YOUR VERCEL BACKEND URL
-const API_URL = "https://YOUR-BACKEND-URL.vercel.app";
+const API_URL = "https://uyws-portal.vercel.app/";
 
 const Admin = () => {
   const [applications, setApplications] = useState([]);

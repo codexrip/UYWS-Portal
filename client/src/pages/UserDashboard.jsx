@@ -3,18 +3,19 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { ClipboardList, Award, HandHeart, User } from 'lucide-react';
 
+// 👇 CHANGE THIS to your actual Backend URL
+const API_BASE_URL = "https://uyws-portal.vercel.app"; 
+
 const UserDashboard = () => {
   const [user, setUser] = useState(null);
-  const [myApps, setMyApps] = useState([]); // Default to empty array
+  const [myApps, setMyApps] = useState([]); 
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
   useEffect(() => {
-    // 1. Get User from Local Storage
     const storedUser = localStorage.getItem('user');
     
     if (!storedUser) {
-      // If no user found, kick them back to login
       navigate('/login');
       return;
     }
@@ -22,38 +23,36 @@ const UserDashboard = () => {
     const parsedUser = JSON.parse(storedUser);
     setUser(parsedUser);
 
-    // 2. Fetch Applications for this user
-    // We use parsedUser._id. If it fails, we catch the error so the page doesn't break.
-    axios.get(`http://localhost:5000/api/my-applications/${parsedUser._id}`)
+    // 👇 Updated URL here
+    axios.get(`${API_BASE_URL}/api/my-applications/${parsedUser._id}`)
       .then(res => {
         setMyApps(res.data);
         setLoading(false);
       })
       .catch(err => {
         console.error("Error loading apps:", err);
-        setLoading(false); // Stop loading even if there is an error
+        setLoading(false);
       });
       
   }, [navigate]);
 
-  // Handle Apply Action
   const handleApply = async (programName) => {
     if (!user) return;
     try {
-      await axios.post('http://localhost:5000/api/apply', {
+      // 👇 Updated URL here
+      await axios.post(`${API_BASE_URL}/api/apply`, {
         userId: user._id,
         name: user.name,
         email: user.email,
         program: programName
       });
       alert(`Successfully applied for ${programName}!`);
-      window.location.reload(); // Refresh to update the table
+      window.location.reload(); 
     } catch (err) {
       alert(err.response?.data?.error || "You have already applied for this!");
     }
   };
 
-  // Handle Certificate Printing
   const printCertificate = (appName) => {
     const printWindow = window.open('', '', 'width=800,height=600');
     printWindow.document.write(`
@@ -74,7 +73,7 @@ const UserDashboard = () => {
   };
 
   if (loading) return <div className="p-10 text-center text-gray-500">Loading Dashboard...</div>;
-  if (!user) return null; // Should have redirected already
+  if (!user) return null; 
 
   return (
     <div className="min-h-screen bg-gray-50 pb-20">
@@ -94,7 +93,7 @@ const UserDashboard = () => {
 
       <div className="max-w-6xl mx-auto px-4 mt-8">
         
-        {/* SECTION 1: ACTION CARDS (Apply Here) */}
+        {/* SECTION 1: ACTION CARDS */}
         <div className="mb-12">
           <h2 className="text-xl font-bold text-gray-800 mb-6 flex items-center gap-2">
             <HandHeart className="text-teal-600" /> Open Opportunities

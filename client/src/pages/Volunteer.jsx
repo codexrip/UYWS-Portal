@@ -3,8 +3,11 @@ import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { CheckCircle, AlertCircle } from 'lucide-react';
 
+// 👇 CHANGE THIS to your actual Backend URL found in Vercel Dashboard
+const API_BASE_URL = "https://uyws-portal.vercel.app"; 
+
 const Volunteer = () => {
-  const { id } = useParams(); // Get the Initiative ID from the URL
+  const { id } = useParams(); 
   const navigate = useNavigate();
   
   const [formData, setFormData] = useState({
@@ -14,7 +17,7 @@ const Volunteer = () => {
     message: ''
   });
   
-  const [status, setStatus] = useState('idle'); // idle, loading, success, error
+  const [status, setStatus] = useState('idle'); 
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -25,14 +28,13 @@ const Volunteer = () => {
     setStatus('loading');
 
     try {
-      // Send data to Backend
-      await axios.post('http://localhost:5000/api/volunteers', {
+      // 👇 Updated to use the Live URL
+      await axios.post(`${API_BASE_URL}/api/volunteers`, {
         ...formData,
-        initiativeId: id // Attach the ID so we know which event this is for
+        initiativeId: id 
       });
       setStatus('success');
       
-      // Optional: Redirect to home after 3 seconds
       setTimeout(() => navigate('/initiatives'), 3000);
       
     } catch (err) {
@@ -65,7 +67,6 @@ const Volunteer = () => {
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-6">
-          
           {/* Full Name */}
           <div>
             <label className="block text-sm font-medium text-gray-700">Full Name</label>
