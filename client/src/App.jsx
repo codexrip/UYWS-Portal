@@ -7,7 +7,7 @@ import Volunteer from './pages/Volunteer'; // New Import
 import Admin from './pages/Admin';
 import About from './pages/About';
 import Login from './pages/Login';
-import Signup from './pages/SignUp';
+import Signup from './pages/Signup';
 import UserDashboard from './pages/UserDashboard';
 
 function App() {
