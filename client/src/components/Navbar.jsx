@@ -13,7 +13,7 @@ const Navbar = () => {
           {/* Logo Section */}
           <div className="flex items-center">
             <Link to="/" className="flex items-center space-x-2">
-              <img src="/assets/logo.png" alt="UYWS Logo" className="h-28 w-28 object-contain rounded-full" />
+              <img src="/logo.png" alt="UYWS Logo" className="h-28 w-28 object-contain rounded-full" />
               
             </Link>
 
