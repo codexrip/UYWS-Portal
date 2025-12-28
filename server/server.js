@@ -104,6 +104,42 @@ app.put('/api/admin/application/:id', async (req, res) => {
 });
 
 // ==========================================
+// 3. INITIATIVES ROUTE (Add this!)
+// ==========================================
+
+app.get('/api/initiatives', (req, res) => {
+    // Temporary data so your Frontend works immediately
+    const initiatives = [
+        {
+            _id: "1",
+            title: "Green Pakistan 2025",
+            description: "Join us to plant 10,000 trees across Punjab to fight smog.",
+            date: "March 15, 2025",
+            location: "Lahore, Pakistan",
+            image: "https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?w=800&q=80"
+        },
+        {
+            _id: "2",
+            title: "Digital Literacy for Youth",
+            description: "Free coding workshops for underprivileged students.",
+            date: "April 02, 2025",
+            location: "Rawalpindi, Pakistan",
+            image: "https://images.unsplash.com/photo-1531482615713-2afd69097998?w=800&q=80"
+        },
+        {
+            _id: "3",
+            title: "Ramadan Food Drive",
+            description: "Distributing ration bags to 500 families before Ramadan.",
+            date: "February 20, 2025",
+            location: "Islamabad, Pakistan",
+            image: "https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?w=800&q=80"
+        }
+    ];
+
+    res.json(initiatives);
+});
+
+// ==========================================
 // VERCEL SERVER CONFIGURATION
 // ==========================================
 // Vercel handles the port automatically.
