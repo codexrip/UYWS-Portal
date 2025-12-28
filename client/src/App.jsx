@@ -11,7 +11,7 @@ import Initiatives from './pages/Initiatives';
 
 function App() {
   return (
-    <Router>
+    
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
@@ -26,8 +26,8 @@ function App() {
         {/* 404 Route */}
         <Route path="*" element={<h1 className="text-center mt-20 text-3xl">404 - Page Not Found</h1>} />
       </Routes>
-    </Router>
     
+
   );
 }
 
