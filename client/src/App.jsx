@@ -8,6 +8,8 @@ import Admin from './pages/Admin';
 import Dashboard from './pages/Dashboard';
 import VolunteerForm from './pages/VolunteerForm';
 import Initiatives from './pages/Initiatives';
+import About from './pages/About';
+
 
 // Import Components
 import Navbar from './components/Navbar';
@@ -23,6 +25,7 @@ function App() {
       <main className="flex-grow">
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/about" element={<About />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/admin" element={<Admin />} />
