@@ -29,7 +29,7 @@ const Login = () => {
     // --- 2. DATABASE LOGIN ---
     try {
       // ✅ FIX: Pointing to specific API endpoint
-      const res = await axios.post('https://localhost:5000/api/login', { 
+      const res = await axios.post('http://localhost:5000/api/login', { 
         email, 
         password 
       });
