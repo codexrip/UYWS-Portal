@@ -3,7 +3,7 @@ import axios from 'axios';
 import InitiativeCard from '../components/InitiativeCard';
 import { Loader2, AlertCircle } from 'lucide-react';
 
-const API_BASE_URL = "https://uyws-portal.vercel.app"; 
+const API_BASE_URL = "https://localhost:5000"; 
 
 const Initiatives = () => {
   const [initiatives, setInitiatives] = useState([]);

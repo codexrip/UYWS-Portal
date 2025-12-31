@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { Users, LogOut, Printer, CheckCircle, XCircle, Trash2 } from 'lucide-react';
 
 // ✅ FIX: No trailing slash to avoid double slashes later
-const API_URL = "https://uyws-portal.vercel.app";
+const API_URL = "https://localhost:5000";
 
 const Admin = () => {
   const [applications, setApplications] = useState([]);

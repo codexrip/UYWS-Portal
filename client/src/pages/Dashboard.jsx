@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { ClipboardList, Award, HandHeart, User } from 'lucide-react';
 
-const API_BASE_URL = "https://uyws-portal.vercel.app"; 
+const API_BASE_URL = "https://localhost:5000"; 
 
 const Dashboard = () => {
   const [user, setUser] = useState(null);

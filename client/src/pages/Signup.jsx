@@ -16,7 +16,7 @@ const Signup = () => {
 
     try {
       // ✅ FIX: Pointing to register endpoint
-      const res = await axios.post('https://uyws-portal.vercel.app/api/register', { 
+      const res = await axios.post('https://localhost:5000/api/register', { 
         name, 
         email, 
         password 
